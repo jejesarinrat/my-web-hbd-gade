@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 4 - song for you</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
+        body {
+            font-family: 'Itim', cursive;
+            background-color: #333; /* สีดำเข้มขึ้น */
+            color: #ff9800; /* สีส้ม */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow-x: hidden; /* ป้องกัน scrollbar แนวนอน */
+        }
+
+        .container {
+            background-color: #222; /* สีดำอ่อนลง */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            position: relative; /* สำหรับ z-index ของเนื้อหา */
+            z-index: 1;
+        }
+
+        header {
+            color: #ff9800;
+            margin-bottom: 20px;
+        }
+
+        header h2 {
+            margin: 5px 0;
+        }
+
+        .tiktok-player {
+            margin-bottom: 20px; /* ลด margin ระหว่างลิงก์ */
+        }
+
+        .youtube-link {
+            display: block; /* เปลี่ยนเป็น block เพื่อให้เรียงบนล่าง */
+            padding: 10px 20px;
+            background-color: #ff9800;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 10px; /* เพิ่ม margin ด้านล่างแต่ละลิงก์ */
+        }
+
+        .youtube-link:last-child {
+            margin-bottom: 0; /* ลบ margin ล่างของลิงก์สุดท้าย */
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        /* สไตล์สำหรับลูกโป่ง */
+        .balloon, .confetti {
+            position: fixed;
+            width: 30px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transform-origin: bottom center;
+            z-index: 2; /* แสดงด้านหน้า */
+        }
+
+        .balloon {
+            background-color: red;
+        }
+
+        .confetti {
+            width: 10px;
+            height: 10px;
+            border-radius: 0%;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>เพลงพิเศษสำหรับลูกพี่เกต</h2>
+        </header>
+
+        <div class="tiktok-player">
+            <p>เพลงฮีลใจ ที่ผมตั้งใจมอบให้พี่เกต</p>
+            <a href="https://vt.tiktok.com/ZSr6Gayne/" target="_blank" class="youtube-link">▶️ Play</a>
+            <p>เพลงที่เหมาะกับความสัมพันธ์ของเรา (หรอ??)</p>
+            <a href="https://vt.tiktok.com/ZSr6GYjch/" target="_blank" class="youtube-link">▶️ Play!</a>
+        </div>
+
+        <footer>
+            <p>รักลูกพี่เกตมากๆ</p>
+            <p>จากน้องจีจี้</p>
+            <button class="back-button" onclick="goToMainPage()">Go Back to Main Page</button>
+        </footer>
+    </div>
+
+    <script>
+        function triggerBalloons() {
+            const numItems = 20; // จำนวนลูกโป่งและกระดาษโปรย
+            const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink'];
+
+            for (let i = 0; i < numItems; i++) {
+                const itemType = Math.random() < 0.5 ? 'balloon' : 'confetti';
+                const element = document.createElement('div');
+                element.classList.add(itemType);
+                element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                element.style.left = Math.random() * window.innerWidth + 'px'; // สุ่มตำแหน่งแนวนอน
+                element.style.bottom = '0px'; // เริ่มจากด้านล่าง
+                element.style.animationDuration = Math.random() * 3 + 2 + 's'; // สุ่มความเร็ว
+                element.style.animationDelay = Math.random() * 0.5 + 's';
+                element.style.animationName = 'float';
+
+                document.body.appendChild(element);
+
+                element.addEventListener('animationend', () => {
+                    element.remove();
+                });
+            }
+        }
+
+        window.onload = function() {
+            triggerBalloons(); // เรียกให้ลูกโป่งขึ้นเมื่อโหลดหน้า
+        };
+
+        function goToMainPage() {
+            window.location.href = 'index.html';
+            localStorage.setItem('showBalloons', 'true');
+        }
+    </script>
+</body>
+</html>
