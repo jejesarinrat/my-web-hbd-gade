@@ -15,7 +15,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow-x: hidden;
+            overflow-x: hidden; /* ป้องกัน scrollbar แนวนอน */
         }
 
         .container {
@@ -25,13 +25,49 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             text-align: center;
             margin-bottom: 20px;
-            position: relative;
+            position: relative; /* สำหรับกำหนด z-index ของเนื้อหา */
             z-index: 1;
         }
 
         header {
             color: #dc143c;
             margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 5px 0;
+        }
+
+        .content img {
+            width: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #dc143c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .marquee-container {
@@ -41,18 +77,18 @@
             color: white;
             padding: 10px 0;
             margin-top: 20px;
-            position: relative;
+            position: relative; /* สำหรับกำหนด z-index ของแถบเลื่อน */
             z-index: 1;
         }
 
         .marquee-text {
             white-space: nowrap;
-            animation: marquee 10s linear infinite;
+            animation: marquee 20s linear infinite;
             padding-left: 100%;
         }
 
         @keyframes marquee {
-            0% { transform: translateX(100%); }
+            0% { transform: translateX(0%); }
             100% { transform: translateX(-100%); }
         }
 
@@ -64,7 +100,7 @@
             opacity: 0;
             pointer-events: none;
             transform-origin: bottom center;
-            z-index: 2;
+            z-index: 2; /* แสดงด้านหน้า */
         }
 
         .balloon {
@@ -95,11 +131,31 @@
             <h1>Happy Birthday</h1>
             <h1>Gade!</h1>
         </header>
+
+        <div class="content">
+            <img src="gade1.jpg" alt="Birthday Gade" style="width: 150px; border-radius: 50%; margin-bottom: 20px;">
+            <p style="margin-bottom: 15px; line-height: 1.6;">Wishing you a year filled with happiness, success, and all the love you deserve!</p>
+            <p style="margin-bottom: 10px; line-height: 1.6;">May every day bring you joy, laughter, and exciting new adventures.</p>
+            <p style="margin-bottom: 10px; line-height: 1.6;">Keep shining and being the amazing person you are! 🌟💖</p>
+            <p style="margin-bottom: 10px; line-height: 1.6;">I'm so grateful to have you as my friend, and I hope we can create even more wonderful memories together.</p>
+            <p style="margin-bottom: 10px; line-height: 1.6;">May your heart be light, your worries be few.</p>
+        </div>
+
+        <footer>
+            <p>Love,</p>
+            <p>Jeje Sarinrat</p>
+        </footer>
+
+        <div class="button-container">
+            <a href="page2.html" class="button" onclick="setBalloonFlag('page2.html')">Go to Page 2</a>
+            <a href="page3.html" class="button" onclick="setBalloonFlag('page3.html')">Go to Page 3</a>
+            <a href="page5.html" class="button" onclick="setBalloonFlag('page5.html')">ไปเป่าเค้กกันจ้า!</a> </div>
+        </div>
     </div>
 
     <script>
         function triggerBalloons() {
-            const numItems = 20;
+            const numItems = 20; // จำนวนลูกโป่งและกระดาษโปรย
             const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink'];
 
             for (let i = 0; i < numItems; i++) {
@@ -107,13 +163,14 @@
                 const element = document.createElement('div');
                 element.classList.add(itemType);
                 element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                element.style.left = Math.random() * window.innerWidth + 'px';
-                element.style.bottom = '0px';
-                element.style.animationDuration = Math.random() * 3 + 2 + 's';
+                element.style.left = Math.random() * window.innerWidth + 'px'; // สุ่มตำแหน่งแนวนอน
+                element.style.bottom = '0px'; // เริ่มจากด้านล่าง
+                element.style.animationDuration = Math.random() * 3 + 2 + 's'; // สุ่มความเร็ว
                 element.style.animationDelay = Math.random() * 0.5 + 's';
                 element.style.animationName = 'float';
 
                 document.body.appendChild(element);
+
                 element.addEventListener('animationend', () => {
                     element.remove();
                 });
@@ -123,9 +180,14 @@
         window.onload = function() {
             if (localStorage.getItem('showBalloons') === 'true') {
                 triggerBalloons();
-                localStorage.removeItem('showBalloons');
+                localStorage.removeItem('showBalloons'); // ล้าง Flag
             }
         };
+
+        function setBalloonFlag(page) {
+            localStorage.setItem('showBalloons', 'true');
+            window.location.href = page;
+        }
     </script>
 </body>
 </html>
