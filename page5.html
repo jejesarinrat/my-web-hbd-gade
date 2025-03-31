@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เป่าเค้กวันเกิดให้ เกต!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
+        body {
+            font-family: 'Itim', cursive; /* ใช้ฟอนต์ Itim */
+            background-color: #fdd835; /* สีเหลืองสดใส */
+            color: #d32f2f; /* สีแดงเข้ม */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .cake-container {
+            position: relative;
+        }
+
+        #cake-image {
+            width: 300px;
+        }
+
+        #blow-button, .back-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        #blow-button:hover, .back-button:hover {
+            background-color: #c62828;
+        }
+
+        #message {
+            margin-top: 30px;
+            font-size: 1.1em;
+        }
+
+        /* ซ่อน GIF ตอนแรก */
+        #blowing-gif {
+            display: none;
+            width: 300px;
+        }
+
+        /* สไตล์สำหรับลูกโป่ง */
+        .balloon, .confetti {
+            position: fixed;
+            width: 30px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transform-origin: bottom center;
+            z-index: 2; /* แสดงด้านหน้า */
+        }
+
+        .balloon {
+            background-color: red;
+        }
+
+        .confetti {
+            width: 10px;
+            height: 10px;
+            border-radius: 0%;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cake-container">
+        <img id="cake-image" src="https://lh3.googleusercontent.com/sjQQrcaGWjKU6jlr7sPgvLSLPPYO-uZVSTWsYDR6IDK4vFPy4g5DZcXbFQJ_bi3AFsJZwfu6YSSVHwu_Xn5tWXA=w1280" alt="เค้กวันเกิดก่อนเป่า">
+        <img id="blowing-gif" src="https://lh3.googleusercontent.com/PHBCaReTV3EJHOP0r5f7FMh0McoH9CUtuZ8hxj9ZXwoSndmvErvt3qi103ZC3rd_352xsM_zxIgiIYqj3tHg37U=w1280" alt="GIF เป่าเค้ก">
+    </div>
+
+    <button id="blow-button">เป่าเค้ก!</button>
+
+    <div id="message">น้องเป็ดช่วยเกตเป่าเค้ก!</div>
+    <div id="message"></div>
+
+    <button class="back-button" onclick="goToMainPage()">Go Back to Main Page</button>
+
+    <script>
+        const blowButton = document.getElementById('blow-button');
+        const cakeImage = document.getElementById('cake-image');
+        const blowingGif = document.getElementById('blowing-gif');
+        let isBlowing = false;
+
+        blowButton.addEventListener('click', () => {
+            if (!isBlowing) {
+                cakeImage.style.display = 'none';
+                blowingGif.style.display = 'block';
+                blowButton.textContent = 'เป่าเสร็จแล้ว!';
+                isBlowing = true;
+                triggerBalloons(); // เรียกฟังก์ชันลูกโป่งเมื่อเริ่มเป่า
+            } else {
+                blowingGif.style.display = 'none';
+                cakeImage.src = 'https://lh5.googleusercontent.com/z04obCgYlfhSaAJ12dWClTZ2D-ZaZuxNv6sS2Uhu4FvAB4tZCLV6l79bD56SZ3VkK2CIJu-P-gQ5ZAv1SA5Z6a4=w1280';
+                cakeImage.alt = 'เค้กวันเกิดหลังเป่า';
+                cakeImage.style.display = 'block';
+                blowButton.textContent = 'เป่าอีกครั้ง?';
+                isBlowing = false;
+            }
+        });
+
+        function goToMainPage() {
+            window.location.href = 'index.html';
+            localStorage.setItem('showBalloons', 'true');
+        }
+
+        // โค้ดสำหรับลูกโป่ง
+        function triggerBalloons() {
+            const numItems = 20; // จำนวนลูกโป่งและกระดาษโปรย
+            const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink'];
+
+            for (let i = 0; i < numItems; i++) {
+                const itemType = Math.random() < 0.5 ? 'balloon' : 'confetti';
+                const element = document.createElement('div');
+                element.classList.add(itemType);
+                element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                element.style.left = Math.random() * window.innerWidth + 'px'; // สุ่มตำแหน่งแนวนอน
+                element.style.bottom = '0px'; // เริ่มจากด้านล่าง
+                element.style.animationDuration = Math.random() * 3 + 2 + 's'; // สุ่มความเร็ว
+                element.style.animationDelay = Math.random() * 0.5 + 's';
+                element.style.animationName = 'float';
+
+                document.body.appendChild(element);
+
+                element.addEventListener('animationend', () => {
+                    element.remove();
+                });
+            }
+        }
+    </script>
+</body>
+</html>

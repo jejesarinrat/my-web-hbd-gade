@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Page 3 - Gade</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow-x: hidden; /* ป้องกัน scrollbar แนวนอน */
+        }
+
+        .container {
+            background-color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative; /* สำหรับกำหนด z-index ของเนื้อหา */
+            z-index: 1;
+        }
+
+        header {
+            color: #FF69B4;
+            margin-bottom: 20px;
+        }
+
+        header h2 {
+            margin: 5px 0;
+        }
+
+        .content img {
+            width: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 10px; /* เพิ่ม margin ด้านล่างปุ่ม */
+        }
+
+        /* สไตล์สำหรับลูกโป่งและกระดาษโปรย */
+        .balloon, .confetti {
+            position: fixed;
+            width: 30px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transform-origin: bottom center;
+            z-index: 2; /* แสดงด้านหน้า */
+        }
+
+        .balloon {
+            background-color: red;
+        }
+
+        .confetti {
+            width: 10px;
+            height: 10px;
+            border-radius: 0%;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>A Little Message for Gade!</h2>
+        </header>
+
+        <div class="content">
+            <img src="https://lh3.googleusercontent.com/tAVCucKk4g6g0rnL0cwAotz9h4284sqIJXRBRQ7d_UXudH8wZRqzMsF8hAXKUr0jXDFWNmJNrkBke6-3CsflcoQaPGFT4GxziaBvYkKnMWnZ0t6y3cj1FsNg9U0aqD-XXw=w1280" alt="Birthday Gade 3">
+            <p>Guess what? I was going to get you the most amazing gift ever…</p>
+            <p>but then I remembered, you already have me as a amazing gift in your life! 😏💖</p>
+            <p>So, you're welcome. 🎁😂</p>
+        </div>
+
+        <a href="page4.html" class="back-button" onclick="setBalloonFlag('page4.html')">special song</a>
+        <a href="index.html" class="back-button" onclick="setBalloonFlag('index.html')">Go Back to Main Page</a>
+    </div>
+
+    <script>
+        function triggerBalloons() {
+            const numItems = 20; // จำนวนลูกโป่งและกระดาษโปรย
+            const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink'];
+
+            for (let i = 0; i < numItems; i++) {
+                const itemType = Math.random() < 0.5 ? 'balloon' : 'confetti';
+                const element = document.createElement('div');
+                element.classList.add(itemType);
+                element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                element.style.left = Math.random() * window.innerWidth + 'px'; // สุ่มตำแหน่งแนวนอน
+                element.style.bottom = '0px'; // เริ่มจากด้านล่าง
+                element.style.animationDuration = Math.random() * 3 + 2 + 's'; // สุ่มความเร็ว
+                element.style.animationDelay = Math.random() * 0.5 + 's';
+                element.style.animationName = 'float';
+
+                document.body.appendChild(element);
+
+                element.addEventListener('animationend', () => {
+                    element.remove();
+                });
+            }
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('showBalloons') === 'true') {
+                triggerBalloons();
+                localStorage.removeItem('showBalloons'); // ล้าง Flag
+            }
+        };
+
+        function setBalloonFlag(page) {
+            localStorage.setItem('showBalloons', 'true');
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
