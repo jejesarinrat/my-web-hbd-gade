@@ -24,8 +24,14 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             text-align: center;
+            margin-bottom: 20px;
             position: relative;
             z-index: 1;
+        }
+
+        header {
+            color: #dc143c;
+            margin-bottom: 20px;
         }
 
         .marquee-container {
@@ -34,13 +40,13 @@
             background-color: red;
             color: white;
             padding: 10px 0;
+            margin-top: 20px;
             position: relative;
             z-index: 1;
         }
 
         .marquee-text {
             white-space: nowrap;
-            display: inline-block;
             animation: marquee 10s linear infinite;
             padding-left: 100%;
         }
@@ -50,30 +56,25 @@
             100% { transform: translateX(-100%); }
         }
 
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .button {
-            padding: 10px 20px;
-            background-color: #dc143c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .balloon {
+        .balloon, .confetti {
             position: fixed;
             width: 30px;
             height: 40px;
             border-radius: 50%;
-            opacity: 0.8;
+            opacity: 0;
             pointer-events: none;
-            animation: float 5s ease-in-out infinite;
+            transform-origin: bottom center;
+            z-index: 2;
+        }
+
+        .balloon {
+            background-color: red;
+        }
+
+        .confetti {
+            width: 10px;
+            height: 10px;
+            border-radius: 0%;
         }
 
         @keyframes float {
@@ -90,32 +91,32 @@
     </div>
 
     <div class="container">
-        <h1 style="color: #dc143c;">Happy Birthday Gade!</h1>
-        <img src="gade1.jpg" alt="Birthday Gade" style="width: 150px; border-radius: 50%; margin-bottom: 20px;">
-        <p>Wishing you a year filled with happiness, success, and all the love you deserve!</p>
-        <p>May every day bring you joy, laughter, and exciting new adventures.</p>
-        <p>Keep shining and being the amazing person you are! 🌟💖</p>
-        <div class="button-container">
-            <a href="page2.html" class="button">Go to Page 2</a>
-            <a href="page3.html" class="button">Go to Page 3</a>
-            <a href="page5.html" class="button">ไปเป่าเค้กกันจ้า!</a>
-        </div>
+        <header>
+            <h1>Happy Birthday</h1>
+            <h1>Gade!</h1>
+        </header>
     </div>
 
     <script>
         function triggerBalloons() {
-            const numBalloons = 15;
+            const numItems = 20;
             const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink'];
 
-            for (let i = 0; i < numBalloons; i++) {
-                const balloon = document.createElement('div');
-                balloon.classList.add('balloon');
-                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                balloon.style.left = Math.random() * window.innerWidth + 'px';
-                balloon.style.bottom = '-50px';
-                balloon.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                document.body.appendChild(balloon);
-                setTimeout(() => balloon.remove(), 5000);
+            for (let i = 0; i < numItems; i++) {
+                const itemType = Math.random() < 0.5 ? 'balloon' : 'confetti';
+                const element = document.createElement('div');
+                element.classList.add(itemType);
+                element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                element.style.left = Math.random() * window.innerWidth + 'px';
+                element.style.bottom = '0px';
+                element.style.animationDuration = Math.random() * 3 + 2 + 's';
+                element.style.animationDelay = Math.random() * 0.5 + 's';
+                element.style.animationName = 'float';
+
+                document.body.appendChild(element);
+                element.addEventListener('animationend', () => {
+                    element.remove();
+                });
             }
         }
 
